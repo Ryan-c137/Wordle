@@ -2,15 +2,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class WordleFrame extends JFrame implements ActionListener {
 
     String answer;
     WordGuessing wordGuessing;
     JFrame frame;
+    public final File wordsLib = new File("answerlib");
+    int randomTime;
 
     WordleFrame() {
-        answer = new String();
+//        answer = new String();
         frame = new JFrame("Wordle");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -46,12 +51,23 @@ public class WordleFrame extends JFrame implements ActionListener {
         inputItem.addActionListener(this);
         outputItem.addActionListener(this);
 
+        //set random answer
+        randomTime = (int) (Math.random()*3103);
+        try {
+            Scanner scanner = new Scanner(wordsLib);
+            for (int i = 0; i < randomTime; i++) {
+                answer = scanner.nextLine().toUpperCase();
+            }
+        }catch (FileNotFoundException ea){
+            ea.printStackTrace();
+        }
         wordGuessing = new WordGuessing(answer);
         frame.add(wordGuessing);
+        wordGuessing.requestFocusInWindow();
+        System.out.println(answer+" "+randomTime);
         frame.pack();
         frame.setResizable(false);
         frame.setVisible(true);
-
     }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
@@ -67,21 +83,36 @@ public class WordleFrame extends JFrame implements ActionListener {
             case "SelfSetting": {
                 answer = JOptionPane.showInputDialog("Please enter the word you would like to guess: ").toUpperCase();
 
-                // Validate the input
                 if (!(answer.length() == 5) && answer.chars().allMatch(Character::isLetter)) {
                     JOptionPane.showMessageDialog(frame, "Invalid input! Please enter a valid word.");
                     return;
                 }
-
                 wordGuessing = new WordGuessing(answer);
                 frame.getContentPane().removeAll();
                 frame.add(wordGuessing);
                 frame.revalidate();
                 frame.repaint();
-
+                wordGuessing.requestFocusInWindow();
                 System.out.println("New answer set: " + answer);
-                break;
-            }
+            }break;
+            case "Random": {
+                randomTime = (int) (Math.random()*3103);
+                try {
+                    Scanner scanner = new Scanner(wordsLib);
+                    for (int i = 0; i < randomTime; i++) {
+                        answer = scanner.nextLine().toUpperCase();
+                    }
+                }catch (FileNotFoundException ea){
+                    ea.printStackTrace();
+                }
+                wordGuessing = new WordGuessing(answer);
+                frame.getContentPane().removeAll();
+                frame.add(wordGuessing);
+                frame.revalidate();
+                frame.repaint();
+                wordGuessing.requestFocusInWindow();
+                System.out.println(answer+" "+randomTime);
+            }break;
         }
     }
 }

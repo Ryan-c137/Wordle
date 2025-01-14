@@ -41,19 +41,29 @@ public class SearchAndMatch {
         char[] input = inputString.toCharArray();
         HashSet<Character> answerSet = new HashSet<>();
 
+        //note green
         for (int j = 0; j < 5; j++) {
             if (answer[j] == input[j]) {
                 label[j].setBackground(Color.GREEN);
                 input[j] = 0;
-            }else {
-                answerSet.add(answer[j]);
+                answer[j] = 0;
             }
         }
 
+        //note yellow
         for (int j = 0; j < 5; j++) {
-            if ((!(input[j] == 0)) && answerSet.contains(input[j])) {
-                label[j].setBackground(Color.YELLOW);
-            }else if (!(input[j] == 0)) {
+            for (int k = 0; k < 5; k++) {
+                if ((input[j] != 0) && input[j] == answer[k]) {
+                    label[j].setBackground(Color.YELLOW);
+                    input[j] = 0;
+                    answer[k] = 0;
+                }
+            }
+        }
+
+        //note gray
+        for (int j = 0; j < 5; j++) {
+            if (input[j] != 0) {
                 label[j].setBackground(Color.GRAY);
             }
         }

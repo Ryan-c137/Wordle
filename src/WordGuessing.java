@@ -82,6 +82,8 @@ public class WordGuessing extends JPanel {
                                 }
                                 if (answer.equals(new String(inputWord))) {
                                     JOptionPane.showMessageDialog(null, "You found the word " + answer);
+                                } else if (y >= 5) {
+                                    JOptionPane.showMessageDialog(null, "The correct answer is:  " + answer + "\n YOU FUCKING PATHETIC IDIOT");
                                 }
                                 y++;
                                 x = 0;

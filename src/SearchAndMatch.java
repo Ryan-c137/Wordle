@@ -13,25 +13,30 @@ import java.util.stream.Stream;
 
 public class SearchAndMatch {
 
-    public static Boolean sam(char[] input, JLabel[][] label, int y, String answer) {
+    public static Boolean sam(char[] input, JLabel[][] label, int y, String answer, boolean cheatingMode) {
         JLabel[] label2D = new JLabel[5];
         for (int i = 0; i < 5; i++) {
             label2D[i] = label[i][y];
         }
         String inputString = new String(input);
-        File wordsLib = new File("words.txt");
-        String validWord;
-        try {
-            Scanner scanner = new Scanner(wordsLib);
-            for (int i = 0; i < 5757; i++) {
-                validWord = scanner.nextLine().toUpperCase();
-                if (inputString.equals(validWord)) {
-                    match(inputString, label2D, answer);
-                    return true;
+        if (!cheatingMode) {
+            File wordsLib = new File("words.txt");
+            String validWord;
+            try {
+                Scanner scanner = new Scanner(wordsLib);
+                for (int i = 0; i < 5757; i++) {
+                    validWord = scanner.nextLine().toUpperCase();
+                    if (inputString.equals(validWord) || inputString.equals(answer)) {
+                        match(inputString, label2D, answer);
+                        return true;
+                    }
                 }
+            }catch (FileNotFoundException e){
+                e.printStackTrace();
             }
-        }catch (FileNotFoundException e){
-            e.printStackTrace();
+        }else {
+            match(inputString, label2D, answer);
+            return true;
         }
         return false;
     }

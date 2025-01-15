@@ -10,7 +10,7 @@ public class WordGuessing extends JPanel {
     char[] inputWord;
     int x = 0, y = 0, i = 0;
 
-    WordGuessing(String answer) {
+    WordGuessing(String answer, boolean cheatingMode) {
         this.setLayout(null);
         this.setBackground(Color.WHITE);
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -76,7 +76,7 @@ public class WordGuessing extends JPanel {
                     }break;
                     case 10: { //enter
                         if (i == 5) {
-                            if (SearchAndMatch.sam(inputWord, label, y, answer)) { // search and match
+                            if (SearchAndMatch.sam(inputWord, label, y, answer, cheatingMode)) { // search and match
                                 for (i = 0; i < 5; i++) {
                                     label[i][y].repaint();
                                 }

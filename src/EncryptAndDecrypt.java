@@ -1,64 +1,56 @@
-import javax.crypto.*;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.PBEKeySpec;
-import javax.crypto.spec.SecretKeySpec;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
-import java.util.Base64;
+public class EncryptAndDecrypt {
+    public static String encrypt(String plainText) {
+        char[] plainChar = plainText.toLowerCase().toCharArray();
+        String encryptedText = new String();
+        for (char c : plainChar) {
+            encryptedText += String.valueOf(8964 * c) + "*";
+        }
 
-public class EncryptAndDecrypt extends Thread {
+        StringBuilder modified = new StringBuilder(encryptedText);
 
-    public static SecretKey generateKey(int n) throws NoSuchAlgorithmException {
-        KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-        keyGenerator.init(n);
-        SecretKey key = keyGenerator.generateKey();
-        return key;
+        for (int i = 0; i < encryptedText.length()*1.5; i+=3) {
+            modified.insert(i, shitThing((int) (Math.random()*10)));
+        }
+        encryptedText = modified.toString();
+        return encryptedText;
     }
 
-    public static SecretKey getKeyFromPassword(String password, String salt)
-            throws NoSuchAlgorithmException, InvalidKeySpecException {
-
-        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), 65536, 256);
-        SecretKey secret = new SecretKeySpec(factory.generateSecret(spec)
-                .getEncoded(), "AES");
-        return secret;
+    public static char shitThing(int number) {
+        switch (number) {
+            case 0: return '@'; 
+            case 2: return '-'; 
+            case 3: return '+'; 
+            case 4: return '#'; 
+            case 5: return '^'; 
+            case 6: return '$'; 
+            case 7: return '`'; 
+            case 8: return '{'; 
+            case 9: return '}';
+            case 1: return '['; 
+        }
+        return '|';
     }
 
-    public static IvParameterSpec generateIv() {
-        byte[] iv = new byte[16];
-        new SecureRandom().nextBytes(iv);
-        return new IvParameterSpec(iv);
+    public static String decrypt(String encryptedText) {
+        char[] encrptChar = encryptedText.toCharArray();
+        String[] letters = new String[5];
+        for (int i = 0; i < letters.length; i++) {
+            letters[i] = ""; // Initialize each element
+        }
+        int i = 0;
+        for (char c : encrptChar) {
+            if (Character.isDigit(c)) {
+                letters[i] += c;
+            } else if (c == '*') {
+                i++;
+            }
+        }
+        StringBuilder plainText = new StringBuilder();
+        for (i = 0; i < 5; i++) {
+            plainText.append(Character.toChars(Integer.parseInt(letters[i]) / 8964));
+        }
+        String plain = plainText.toString().toUpperCase();
+        System.out.println(plainText + " " + letters[0]);
+        return plain;
     }
-
-    public static String encrypt(String algorithm, String input, SecretKey key,
-                                 IvParameterSpec iv) throws NoSuchPaddingException, NoSuchAlgorithmException,
-            InvalidAlgorithmParameterException, InvalidKeyException,
-            BadPaddingException, IllegalBlockSizeException {
-
-        Cipher cipher = Cipher.getInstance(algorithm);
-        cipher.init(Cipher.ENCRYPT_MODE, key, iv);
-        byte[] cipherText = cipher.doFinal(input.getBytes());
-        return Base64.getEncoder()
-                .encodeToString(cipherText);
-    }
-
-    public static String decrypt(String algorithm, String cipherText, SecretKey key,
-                                 IvParameterSpec iv) throws NoSuchPaddingException, NoSuchAlgorithmException,
-            InvalidAlgorithmParameterException, InvalidKeyException,
-            BadPaddingException, IllegalBlockSizeException {
-
-        Cipher cipher = Cipher.getInstance(algorithm);
-        cipher.init(Cipher.DECRYPT_MODE, key, iv);
-        byte[] plainText = cipher.doFinal(Base64.getDecoder()
-                .decode(cipherText));
-        return new String(plainText);
-    }
-
-
-
 }

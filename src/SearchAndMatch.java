@@ -2,32 +2,26 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Scanner;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
-
 public class SearchAndMatch {
 
-    public static Boolean sam(char[] input, JLabel[][] label, int y, String answer, boolean cheatingMode) {
+
+    public static Boolean sam(char[] input, int y) {
+        System.out.println(input[0] + " " + y);
         JLabel[] label2D = new JLabel[5];
         for (int i = 0; i < 5; i++) {
-            label2D[i] = label[i][y];
+            label2D[i] = WordGuessing.label[i][y];
         }
         String inputString = new String(input);
-        if (!cheatingMode) {
+        if (!WordleFrame.cheatingMode) {
             File wordsLib = new File("words.txt");
             String validWord;
             try {
                 Scanner scanner = new Scanner(wordsLib);
                 for (int i = 0; i < 5757; i++) {
                     validWord = scanner.nextLine().toUpperCase();
-                    if (inputString.equals(validWord) || inputString.equals(answer)) {
-                        match(inputString, label2D, answer);
+                    if (inputString.equals(validWord) || inputString.equals(WordleFrame.answer)) {
+                        match(inputString, label2D, WordleFrame.answer);
                         return true;
                     }
                 }
@@ -35,7 +29,7 @@ public class SearchAndMatch {
                 e.printStackTrace();
             }
         }else {
-            match(inputString, label2D, answer);
+            match(inputString, label2D, WordleFrame.answer);
             return true;
         }
         return false;
@@ -44,12 +38,13 @@ public class SearchAndMatch {
     public static void match(String inputString, JLabel[] label, String answerString) {
         char[] answer = answerString.toCharArray();
         char[] input = inputString.toCharArray();
-        HashSet<Character> answerSet = new HashSet<>();
 
         //note green
         for (int j = 0; j < 5; j++) {
             if (answer[j] == input[j]) {
                 label[j].setBackground(Color.GREEN);
+                MiniKeyboard.buttons[MiniKeyboard.letterToNumber(input[j])].setBackground(Color.GREEN);
+//                MiniKeyboard.buttons[MiniKeyboard.letterToNumber(input[j])].setForeground(Color.GREEN);
                 input[j] = 0;
                 answer[j] = 0;
             }
@@ -60,6 +55,8 @@ public class SearchAndMatch {
             for (int k = 0; k < 5; k++) {
                 if ((input[j] != 0) && input[j] == answer[k]) {
                     label[j].setBackground(Color.YELLOW);
+                    MiniKeyboard.buttons[MiniKeyboard.letterToNumber(input[j])].setBackground(Color.YELLOW);
+//                    MiniKeyboard.buttons[MiniKeyboard.letterToNumber(input[j])].setForeground(Color.YELLOW);
                     input[j] = 0;
                     answer[k] = 0;
                 }
@@ -70,6 +67,8 @@ public class SearchAndMatch {
         for (int j = 0; j < 5; j++) {
             if (input[j] != 0) {
                 label[j].setBackground(Color.GRAY);
+                MiniKeyboard.buttons[MiniKeyboard.letterToNumber(input[j])].setBackground(Color.GRAY);
+//                MiniKeyboard.buttons[MiniKeyboard.letterToNumber(input[j])].setForeground(Color.GRAY);
             }
         }
     }

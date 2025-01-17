@@ -4,16 +4,17 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class WordGuessing extends JPanel {
-    JLabel[][] label;
+    public static JLabel[][] label = new JLabel[5][6];
     Dimension wordGuessingDimension, labelDimension;
     char key;
-    char[] inputWord;
-    int x = 0, y = 0, i = 0;
+    static ChangeReceive changeReceive;
 
-    WordGuessing(String answer, boolean cheatingMode) {
+    WordGuessing() {
+        changeReceive = new ChangeReceive();
         this.setLayout(null);
         this.setBackground(Color.WHITE);
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        this.setBounds(0, 0 , 380, 450);
         this.setFocusable(true);
         this.requestFocusInWindow();
 
@@ -24,7 +25,7 @@ public class WordGuessing extends JPanel {
 
         labelDimension = new Dimension(60, 60);
 
-        label = new JLabel[5][6];
+
         int padding = 10;
         int startX = 20, startY = 20;
         for (int i = 0; i < 5; i++) {
@@ -41,61 +42,17 @@ public class WordGuessing extends JPanel {
             }
         }
 
-        inputWord = new char[5];
+
 
         addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 key = e.getKeyChar();
-                System.out.println(e.getKeyCode());
-                if (answer.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Please set the mode then play");
-                    key = '0';
-                }
-                if (Character.isLetter(key)) {
-                    key = Character.toUpperCase(key);
-                    if (i <= 4) {
-                        inputWord[i] = key;
-                        label[x][y].setText(" " + key + " ");
-                        label[x][y].repaint();
-                        i++;
-                        x++;
-                    }else {
-                        JOptionPane.showMessageDialog(null, "You can not input more letter to this word");
-                    }
-                }
-
+                System.out.println(key);
                 switch (e.getKeyCode()) {
-                    case 8: { //delete
-                        if (i > 0) {
-                            x--;
-                            i--;
-                        }
-                        label[x][y].setText("   ");
-                        label[x][y].repaint();
-                        inputWord[i] = '0';
-                    }break;
-                    case 10: { //enter
-                        if (i == 5) {
-                            if (SearchAndMatch.sam(inputWord, label, y, answer, cheatingMode)) { // search and match
-                                for (i = 0; i < 5; i++) {
-                                    label[i][y].repaint();
-                                }
-                                if (answer.equals(new String(inputWord))) {
-                                    JOptionPane.showMessageDialog(null, "You found the word " + answer);
-                                } else if (y >= 5) {
-                                    JOptionPane.showMessageDialog(null, "The correct answer is:  " + answer + "\n YOU FUCKING PATHETIC IDIOT");
-                                }
-                                y++;
-                                x = 0;
-                                i = 0;
-                            }else {
-                                JOptionPane.showMessageDialog(null, "Invalid word");
-                            }
-                        }else {
-                            JOptionPane.showMessageDialog(null, "You need to fill the whole word");
-                        }
-                    }
+                    case 10: key = '1'; break;
+                    case 8: key = '0';
                 }
+                changeReceive.core(key);
             }
         });
     }

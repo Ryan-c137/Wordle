@@ -20,7 +20,7 @@ public class ChangeReceive {
                 i++;
                 x++;
             }else {
-                JOptionPane.showMessageDialog(null, "You can not input more letter to this word");
+                JOptionPane.showMessageDialog(null, "You can not input more letters to this word");
             }
         }
         switch (key) {

@@ -34,7 +34,7 @@ public class WordleFrame extends JFrame implements ActionListener {
         //mode menu
         JMenu modeMenu = new JMenu("Mode");
         menuBar.add(modeMenu);
-        JMenuItem cheatingItem = new JMenuItem("JesseMode");
+        JMenuItem cheatingItem = new JMenuItem("CheatingMode");
         modeMenu.add(cheatingItem);
         JMenuItem originItem = new JMenuItem("OriginMode");
         modeMenu.add(originItem);
@@ -71,7 +71,7 @@ public class WordleFrame extends JFrame implements ActionListener {
         miniKeyboard = new MiniKeyboard();
         frame.add(miniKeyboard);
         frame.setLayout(null);
-        frame.setSize(380, 800);
+        frame.setSize(380, 680);
         frame.setResizable(false);
         frame.setVisible(true);
     }

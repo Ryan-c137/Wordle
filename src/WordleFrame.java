@@ -27,16 +27,16 @@ public class WordleFrame extends JFrame implements ActionListener {
         //word menu
         JMenu wordMenu = new JMenu("Word");
         menuBar.add(wordMenu);
-        JMenuItem selfSettingItem = new JMenuItem("SelfSetting");
+        JMenuItem selfSettingItem = new JMenuItem("Set by self");
         wordMenu.add(selfSettingItem);
-        JMenuItem randomItem = new JMenuItem("Random");
+        JMenuItem randomItem = new JMenuItem("Random mode");
         wordMenu.add(randomItem);
         //mode menu
         JMenu modeMenu = new JMenu("Mode");
         menuBar.add(modeMenu);
-        JMenuItem cheatingItem = new JMenuItem("CheatingMode");
+        JMenuItem cheatingItem = new JMenuItem("Cheating mode");
         modeMenu.add(cheatingItem);
-        JMenuItem originItem = new JMenuItem("OriginMode");
+        JMenuItem originItem = new JMenuItem("Origin mode");
         modeMenu.add(originItem);
         //friends menu
         JMenu friendsMenu = new JMenu("Friends");
@@ -86,7 +86,7 @@ public class WordleFrame extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
-            case "SelfSetting": {
+            case "Set by self": {
                 answer = JOptionPane.showInputDialog("Please enter the word you would like to guess: ").toUpperCase();
 
                 if (!(answer.length() == 5) && answer.chars().allMatch(Character::isLetter)) {
@@ -95,7 +95,7 @@ public class WordleFrame extends JFrame implements ActionListener {
                 }
                 reload();
             }break;
-            case "Random": {
+            case "Random mode": {
                 randomTime = (int) (Math.random()*3103);
                 try {
                     Scanner scanner = new Scanner(wordsLib);
@@ -107,11 +107,11 @@ public class WordleFrame extends JFrame implements ActionListener {
                 }
                 reload();
             }break;
-            case "JesseMode": {
+            case "Cheating mode": {
                 cheatingMode = true;
                 reload();
             }break;
-            case "OriginMode": {
+            case "Origin mode": {
                 cheatingMode = false;
                 reload();
             }break;

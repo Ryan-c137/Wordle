@@ -43,7 +43,7 @@ public class ChangeReceive {
                         if (WordleFrame.answer.equals(new String(inputWord))) {
                             JOptionPane.showMessageDialog(null, "You found the word " + WordleFrame.answer);
                         } else if (y >= 5) {
-                            JOptionPane.showMessageDialog(null, "The correct answer is:  " + WordleFrame.answer + "\n YOU FUCKING PATHETIC IDIOT");
+                            JOptionPane.showMessageDialog(null, "The correct answer is:  " + WordleFrame.answer);
                         }
                         y++;
                         x = 0;

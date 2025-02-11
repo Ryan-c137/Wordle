@@ -12,19 +12,19 @@ or, enjoy the classic wordle experience with a randomly selected answer from the
 ### 1. custom answer mode
 set the answer yourself and let someone else use the same computer to guess it.
 
-![custom answer](docs/img.png)  
-![gameplay](docs/img_1.png)
+<img src="docs/img.png" width="400">  
+<img src="docs/img_1.png" width="400">  
 
 ### 2. random mode
 play solo with a randomly generated answer.
 
-![random mode](docs/img_2.png)
+<img src="docs/img_2.png" width="400">  
 
 ### 3. cheating mode
 if wordle feels too hard, enable cheating mode. this lets you input any letters to reveal the answer.
 
-![cheating mode](docs/img_3.png)  
-![cheating gameplay](docs/img_4.png)
+<img src="docs/img_3.png" width="400">  
+<img src="docs/img_4.png" width="400">  
 
 you can switch back to the original mode anytime.
 
@@ -32,7 +32,7 @@ you can switch back to the original mode anytime.
 if your friends also have this game, you can generate an answer code and share it with them.  
 they can paste the code into their game and play remotely with the same wordle challenge.
 
-![](docs/video.gif)
+<img src="docs/video.gif" width="500">  
 
 ## default settings
 when you start the game, it runs in **random mode** and **original mode** by default.
